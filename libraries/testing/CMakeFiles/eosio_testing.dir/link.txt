@@ -1,0 +1,2 @@
+/usr/bin/ar qc libeosio_testing.a  CMakeFiles/eosio_testing.dir/tester.cpp.o CMakeFiles/eosio_testing.dir/tester_network.cpp.o
+/usr/bin/ranlib libeosio_testing.a

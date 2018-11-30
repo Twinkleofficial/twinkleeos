@@ -1,0 +1,2 @@
+/usr/bin/ar qc libdb_size_api_plugin.a  CMakeFiles/db_size_api_plugin.dir/db_size_api_plugin.cpp.o
+/usr/bin/ranlib libdb_size_api_plugin.a

@@ -1,0 +1,2 @@
+/usr/bin/ar qc libproducer_api_plugin.a  CMakeFiles/producer_api_plugin.dir/producer_api_plugin.cpp.o
+/usr/bin/ranlib libproducer_api_plugin.a

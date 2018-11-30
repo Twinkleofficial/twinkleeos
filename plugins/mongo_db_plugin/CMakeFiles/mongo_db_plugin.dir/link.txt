@@ -1,0 +1,2 @@
+/usr/bin/ar qc libmongo_db_plugin.a  CMakeFiles/mongo_db_plugin.dir/mongo_db_plugin.cpp.o
+/usr/bin/ranlib libmongo_db_plugin.a

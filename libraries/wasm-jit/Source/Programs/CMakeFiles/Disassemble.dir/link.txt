@@ -1,0 +1,1 @@
+/usr/bin/clang++-4.0   -Wall -Wno-invalid-partial-specialization -g   CMakeFiles/Disassemble.dir/Disassemble.cpp.o  -o Disassemble ../Logging/libLogging.a ../IR/libIR.a ../WAST/libWAST.a ../WASM/libWASM.a ../IR/libIR.a ../Logging/libLogging.a ../Platform/libPlatform.a -lrt -ldl -lpthread 
