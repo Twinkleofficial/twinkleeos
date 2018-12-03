@@ -314,6 +314,7 @@ void relay::on_applied_transaction(const transaction_trace_ptr& t) {
       return; // has been handled
    }
    send_transaction st{t->id, t->block_num};
+   ilog("on applied transaction action dumy,${id},${b_num}",("id",t->id)("b_num",t->block_num));
 
    for (auto& action: t->action_traces) {
       if (action.receipt.receiver != action.act.account) 
@@ -322,7 +323,7 @@ void relay::on_applied_transaction(const transaction_trace_ptr& t) {
          continue;
       }
       if (action.act.account != local_contract_ or action.act.name == ACTION_DUMMY) { // thirdparty contract call or icp contract dummy call
-         ilog("on applied transaction action dumy!!!");
+         //ilog("on applied transaction action dumy!!!");
          for (auto& in: action.inline_traces) {
             if (in.receipt.receiver != in.act.account) continue;
             if (in.act.account == local_contract_ and in.act.name == ACTION_SENDACTION) {
@@ -618,11 +619,11 @@ void relay::handle_message( icp_connection_ptr c, const channel_seed &s )
    }
    void relay::handle_message( icp_connection_ptr c, const icp_actions &ia )
    {
-      ilog("received icp_actions");
+      //ilog("received icp_actions");
       auto block_id = ia.block_header.id();
    auto block_num = ia.block_header.block_num();
    recv_transaction rt{block_num, block_id, ia.start_packet_seq, ia.start_receipt_seq};
-
+   ilog("received icp_actions ${b_num},${p_seq},${r_seq}",("b_num",block_num)("p_seq",ia.start_packet_seq)("r_seq",ia.start_receipt_seq));
    auto ro = get_read_only_api();
    auto r = ro.get_block(read_only::get_block_params{block_id});
    if (r.block.is_null()) { // not exist
@@ -797,8 +798,8 @@ void relay::on_accepted_block(const block_state_with_action_digests_ptr& b) {
       }
    }
 
-   ilog ("s->block_num, ${s->block_num}, peer_head_.head_block_num, ${peer_head_.head_block_num}",
-   ("s->block_num",s->block_num)("peer_head_.head_block_num",peer_head_.head_block_num));
+   ilog ("s->block_num, ${s->block_num}, peer_head_.head_block_num, ${peer_head_.head_block_num},${acdig}",
+   ("s->block_num",s->block_num)("peer_head_.head_block_num",peer_head_.head_block_num)("acdig",b->action_digests));
    if (not must_send and peer_head_.valid() and s->block_num >= peer_head_.head_block_num) {
       ilog("enter must send judge!!!");
       auto lag = s->block_num - peer_head_.head_block_num;
@@ -890,6 +891,7 @@ void relay::on_irreversible_block(const block_state_ptr& s) {
    }
 
    //send(ia);
+   ilog("send icp_actions ${b_num},${p_seq},${r_seq}",("b_num",s->block_num)("p_seq",ia.start_packet_seq)("r_seq",ia.action_digests));
    send_icp_net_msg(ia);
 }
 
