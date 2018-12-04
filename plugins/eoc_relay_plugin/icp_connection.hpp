@@ -18,7 +18,7 @@ namespace eosio{
     class eoc_relay_plugin;
 }
 
-namespace icp {
+namespace eoc_icp {
 
 using namespace std;
 using tcp = boost::asio::ip::tcp;

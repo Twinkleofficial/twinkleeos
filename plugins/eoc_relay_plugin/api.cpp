@@ -5,7 +5,7 @@
 
 #include "icp_relay.hpp"
 
-namespace icp {
+namespace eoc_icp {
 
 using namespace appbase;
 using namespace eosio;

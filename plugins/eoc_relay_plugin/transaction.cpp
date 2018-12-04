@@ -5,7 +5,7 @@
 
 #include "api.hpp"
 
-namespace icp {
+namespace eoc_icp {
 
 void print_action( const fc::variant& at ) {
    const auto& receipt = at["receipt"];

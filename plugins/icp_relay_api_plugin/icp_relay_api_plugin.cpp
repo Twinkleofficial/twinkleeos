@@ -55,9 +55,9 @@ struct async_result_visitor : public fc::visitor<std::string> {
    }\
 }
 
-#define ICP_RELAY_RO_CALL(call_name, http_response_code) CALL(icp, ro_api, icp::read_only, call_name, http_response_code)
-#define ICP_RELAY_RW_CALL(call_name, http_response_code) CALL(icp, rw_api, icp::read_write, call_name, http_response_code)
-#define ICP_RELAY_RW_CALL_ASYNC(call_name, call_result, http_response_code) CALL_ASYNC(icp, rw_api, icp::read_write, call_name, call_result, http_response_code)
+#define ICP_RELAY_RO_CALL(call_name, http_response_code) CALL(eoc_icp, ro_api, eoc_icp::read_only, call_name, http_response_code)
+#define ICP_RELAY_RW_CALL(call_name, http_response_code) CALL(eoc_icp, rw_api, eoc_icp::read_write, call_name, http_response_code)
+#define ICP_RELAY_RW_CALL_ASYNC(call_name, call_result, http_response_code) CALL_ASYNC(eoc_icp, rw_api, eoc_icp::read_write, call_name, call_result, http_response_code)
 
 void icp_relay_api_plugin::plugin_startup() {
    ilog( "starting icp_relay_api_plugin" );

@@ -6,7 +6,7 @@
 #include "icp_sync_manager.hpp"
 #include <eosio/eoc_relay_plugin/eoc_relay_plugin.hpp>
 #include "icp_connection.hpp"
-namespace icp {
+namespace eoc_icp {
 
 
 void dispatch_manager::retry_fetch (icp_connection_ptr conn)

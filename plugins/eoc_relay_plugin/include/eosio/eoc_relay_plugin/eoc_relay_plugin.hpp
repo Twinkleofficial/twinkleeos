@@ -14,7 +14,7 @@
 #include <localize.hpp>
 #include <fc/io/json.hpp>
 #include <api.hpp>
-namespace icp {
+namespace eoc_icp {
    class relay; // forward declaration
    
 }
@@ -70,13 +70,13 @@ public:
       uint64_t m_nblockno;
       uint64_t m_nnodeid;
    string                       connect( const string& endpoint );
-   icp::relay* get_relay_pointer();
-    icp::read_only get_read_only_api();
-   icp::read_write get_read_write_api();
+   eoc_icp::relay* get_relay_pointer();
+    eoc_icp::read_only get_read_only_api();
+   eoc_icp::read_write get_read_write_api();
 
 private:
   
-   std::shared_ptr<class icp::relay> relay_;
+   std::shared_ptr<class eoc_icp::relay> relay_;
 };
 
 

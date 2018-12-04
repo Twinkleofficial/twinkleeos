@@ -8,7 +8,7 @@
 #include "icp_connection.hpp"
 #include <eosio/producer_plugin/producer_plugin.hpp>
 
-namespace icp {
+namespace eoc_icp {
 
  constexpr auto     icp_def_send_buffer_size_mb = 4;
 constexpr auto     icp_def_send_buffer_size = 1024*1024*icp_def_send_buffer_size_mb;
@@ -111,7 +111,6 @@ void relay::start() {
    ioc_ = std::make_unique<boost::asio::io_context>(num_threads_);
 
    timer_ = std::make_shared<boost::asio::deadline_timer>(app().get_io_service());
-   start_reconnect_timer();
 
    auto address = boost::asio::ip::make_address(endpoint_address_);
    update_local_head();
@@ -136,56 +135,7 @@ void relay::stop() {
    
 }
 
-void relay::start_reconnect_timer() {
-   // add some random delay so that all my peers don't attempt to reconnect to me
-   // at the same time after shutting down..
-   timer_->expires_from_now(boost::posix_time::microseconds(1000000 * (10 + rand() % 5))); // 10+-5 seconds
-   timer_->async_wait([=](const boost::system::error_code& ec) {
-      if(ec) {
-         log_error(ec, "timer wait");
-         return;
-      }
 
-      verify_strand_in_this_thread(app().get_io_service().get_executor(), __func__, __LINE__);
-
-      for (const auto& peer: connect_to_peers_) {
-         bool found = false;
-         for (const auto& s: sessions_ ) {
-            auto ses = s.second.lock();
-            if( ses && (ses->peer_ == peer) ) {
-               // wlog("use count: ${s}, ${ss}", ("s", s.second.use_count())("ss", ses.use_count()));
-               found = true;
-               break;
-            }
-         }
-
-         if (not found) {
-            wlog("attempt to connect to ${p}", ("p", peer));
-            auto s = std::make_shared<session>(peer, *ioc_, shared_from_this());
-            sessions_[s.get()] = s;
-            s->do_connect();
-         }
-      }
-
-      start_reconnect_timer();
-   });
-}
-
-void relay::async_add_session(std::weak_ptr<session> s) {
-   app().get_io_service().post([s, this] {
-      if (auto l = s.lock()) {
-         sessions_[l.get()] = s;
-      }
-   });
-}
-
-void relay::on_session_close(const session* s) {
-   verify_strand_in_this_thread(app().get_io_service().get_executor(), __func__, __LINE__);
-   auto itr = sessions_.find(s);
-   if (itr != sessions_.end()) {
-      sessions_.erase(itr);
-   }
-}
 
 void relay::close(icp_connection_ptr c) {
       if( c->peer_addr.empty( ) && c->socket->is_open() ) {
@@ -200,24 +150,7 @@ void relay::close(icp_connection_ptr c) {
       
    }
 
-void relay::for_each_session(std::function<void (session_ptr)> callback) {
-   app().get_io_service().post([this, callback = callback] {
-      for (const auto& item : sessions_) {
-         if (auto ses = item.second.lock()) {
-            ses->post([ses, callback = callback]() {
-               callback(ses);
-            });
-         }
-      }
-   });
-}
 
-void relay::send(const icp_message& msg) {
-   for_each_session([m=msg](session_ptr s) mutable {
-      s->buffer_send(move(m));
-      s->maybe_send_next_message();
-   });
-}
 
  void relay::send_icp_notice_msg(const icp_notice_message& msg)
  {
@@ -288,11 +221,6 @@ void relay::update_local_head(bool force) {
          it = recv_transactions_.erase(it);
       }
 
-      // for_each_session([h=*h](session_ptr s) {
-      //    // wlog("has session");
-      //    s->update_local_head(h); // TODO: ?
-      // });
-      //send(head_notice{local_head_});
       update_connections_head(*h);
       send_icp_notice_msg(icp_notice_message{local_head_});
    }
@@ -989,7 +917,7 @@ void relay::cleanup() {
       app().get_io_service().post([=] {
          action a;
          a.name = ACTION_CLEANUP;
-         a.data = fc::raw::pack(icp::cleanup{MAX_CLEANUP_NUM});
+         a.data = fc::raw::pack(eoc_icp::cleanup{MAX_CLEANUP_NUM});
          wlog("cleanup *************************************");
          push_transaction(vector<action>{a});
       });

@@ -11,7 +11,6 @@
 #include <eosio/chain_plugin/chain_plugin.hpp>
 #include <eosio/chain/plugin_interface.hpp>
 
-#include "session.hpp"
 #include "cache.hpp"
 #include "api.hpp"
 #include "icp_connection.hpp"
@@ -23,7 +22,7 @@ namespace eosio{
     extern  std::string  icp_peer_log_format;
 }
 
-namespace icp {
+namespace eoc_icp {
 
 using namespace std;
 using tcp = boost::asio::ip::tcp;
@@ -50,10 +49,6 @@ public:
 
    void update_local_head(bool force = false);
 
-   void async_add_session(std::weak_ptr<session> s);
-   void on_session_close(const session* s);
-
-   void for_each_session(std::function<void (session_ptr)> callback);
    void send(const icp_message& msg);
    void send_icp_net_msg(const icp_net_message& msg);
    void send_icp_notice_msg(const icp_notice_message& msg);
@@ -149,7 +144,7 @@ private:
    std::vector<std::thread> socket_threads_;
    
    std::shared_ptr<boost::asio::deadline_timer> timer_; // only access on app io_service
-   std::map<const session*, std::weak_ptr<session>> sessions_; // only access on app io_service
+ 
 
    channels::applied_transaction::channel_type::handle on_applied_transaction_handle_;
    channels::accepted_block_with_action_digests::channel_type::handle on_accepted_block_handle_;

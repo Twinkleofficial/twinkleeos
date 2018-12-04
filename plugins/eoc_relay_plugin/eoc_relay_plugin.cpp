@@ -234,7 +234,7 @@ namespace eosio {
          relay_->network_version_match = options.at( "network-version-match" ).as<bool>();
 
        
-         relay_->sync_master.reset( new icp::icp_sync_manager( options.at( "sync-fetch-span" ).as<uint32_t>()));
+         relay_->sync_master.reset( new eoc_icp::icp_sync_manager( options.at( "sync-fetch-span" ).as<uint32_t>()));
          relay_->connector_period = std::chrono::seconds( options.at( "connection-cleanup-period" ).as<int>());
          relay_->max_cleanup_time_ms = options.at("max-cleanup-time-msec").as<int>();
          relay_->txn_exp_period = def_txn_expire_wait;
@@ -295,7 +295,7 @@ namespace eosio {
                   m_nnodeid = 0;
               }
 
-              relay_ = std::make_shared<icp::relay>();
+              relay_ = std::make_shared<eoc_icp::relay>();
               relay_->chain_plug = app().find_plugin<chain_plugin>();
                   EOS_ASSERT(relay_->chain_plug, chain::missing_chain_plugin_exception, "");
 
@@ -338,13 +338,13 @@ namespace eosio {
             const std::vector<std::string> allowed_remotes = options["allowed-connection"].as<std::vector<std::string>>();
             for( const std::string& allowed_remote : allowed_remotes ) {
                if( allowed_remote == "any" )
-                  relay_->allowed_connections |= icp::relay::Any;
+                  relay_->allowed_connections |= eoc_icp::relay::Any;
                else if( allowed_remote == "producers" )
-                  relay_->allowed_connections |= icp::relay::Producers;
+                  relay_->allowed_connections |= eoc_icp::relay::Producers;
                else if( allowed_remote == "specified" )
-                  relay_->allowed_connections |= icp::relay::Specified;
+                  relay_->allowed_connections |= eoc_icp::relay::Specified;
                else if( allowed_remote == "none" )
-                  relay_->allowed_connections = icp::relay::None;
+                  relay_->allowed_connections = eoc_icp::relay::None;
             }
          }
 
@@ -365,9 +365,9 @@ namespace eosio {
             relay_->start();
             chain::controller&cc = relay_->chain_plug->chain();
             {
-                cc.applied_transaction.connect( boost::bind(&icp::relay::on_applied_transaction, relay_.get(), _1));
-                cc.accepted_block_with_action_digests.connect( boost::bind(&icp::relay::on_accepted_block, relay_.get(), _1) );
-                cc.irreversible_block.connect(boost::bind(&icp::relay::on_irreversible_block, relay_.get(), _1) );
+                cc.applied_transaction.connect( boost::bind(&eoc_icp::relay::on_applied_transaction, relay_.get(), _1));
+                cc.accepted_block_with_action_digests.connect( boost::bind(&eoc_icp::relay::on_accepted_block, relay_.get(), _1) );
+                cc.irreversible_block.connect(boost::bind(&eoc_icp::relay::on_irreversible_block, relay_.get(), _1) );
             }
 
              relay_->start_monitors();
@@ -383,11 +383,11 @@ namespace eosio {
    // Make the magic happen
       }
 
-     icp::read_only eoc_relay_plugin::get_read_only_api()
+     eoc_icp::read_only eoc_relay_plugin::get_read_only_api()
      {
         return relay_->get_read_only_api();
      }
-   icp::read_write eoc_relay_plugin::get_read_write_api()
+   eoc_icp::read_write eoc_relay_plugin::get_read_write_api()
    {
        return relay_->get_read_write_api();
    }
@@ -419,7 +419,7 @@ namespace eosio {
          if( relay_->find_connection( host ) )
          return "already connected";
 
-      icp::icp_connection_ptr c = std::make_shared<icp::icp_connection>(host);
+      eoc_icp::icp_connection_ptr c = std::make_shared<eoc_icp::icp_connection>(host);
       //fc_dlog(logger,"adding new connection to the list");
       relay_->connections.insert( c );
       //fc_dlog(logger,"calling active connector");
@@ -512,7 +512,7 @@ namespace eosio {
         ilog("transaction_next call success !!!!");
     }
 
-    icp::relay* eoc_relay_plugin::get_relay_pointer()
+    eoc_icp::relay* eoc_relay_plugin::get_relay_pointer()
      {
          return relay_.get();
      }

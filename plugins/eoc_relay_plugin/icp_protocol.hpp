@@ -7,12 +7,14 @@
 #include <eosio/chain/types.hpp>
 #include <chrono>
 #include <fc/static_variant.hpp>
+#include "message.hpp"
+
 namespace eosio {
    using namespace chain;
    using namespace fc;
 }
 
-namespace icp{
+namespace eoc_icp{
    static_assert(sizeof(std::chrono::system_clock::duration::rep) >= 8, "system_clock is expected to be at least 64 bits");
    typedef std::chrono::system_clock::duration::rep tstamp;
 
@@ -92,17 +94,17 @@ namespace icp{
 } // namespace eosio
 
 
-FC_REFLECT( icp::icp_handshake_message,
+FC_REFLECT( eoc_icp::icp_handshake_message,
             (network_version)(chain_id)(node_id)(key)
             (time)(token)(sig)(p2p_address)
             (last_irreversible_block_num)(last_irreversible_block_id)
             (head_num)(head_id)
             (os)(agent)(generation) )
 
-FC_REFLECT( icp::icp_go_away_message,
+FC_REFLECT( eoc_icp::icp_go_away_message,
             (reason)(node_id) )
 
-FC_REFLECT( icp::icp_notice_message,(local_head_) )
+FC_REFLECT( eoc_icp::icp_notice_message,(local_head_) )
 /**
  *
 Goals of Network Code

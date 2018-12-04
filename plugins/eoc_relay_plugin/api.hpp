@@ -4,7 +4,7 @@
 
 #include <eosio/chain/types.hpp>
 
-namespace icp {
+namespace eoc_icp {
 
 using namespace std;
 using namespace eosio::chain;
@@ -120,14 +120,14 @@ private:
 
 }
 
-FC_REFLECT(icp::empty, )
-FC_REFLECT(icp::head, (head_block_num)(head_block_id)(last_irreversible_block_num)(last_irreversible_block_id))
-FC_REFLECT(icp::sequence, (last_outgoing_packet_seq)(last_incoming_packet_seq)(last_outgoing_receipt_seq)(last_incoming_receipt_seq)(last_finalised_outgoing_receipt_seq)(last_incoming_packet_block_num)(last_incoming_receipt_block_num)(last_incoming_receiptend_block_num)(min_packet_seq)(min_receipt_seq)(min_block_num))
-FC_REFLECT(icp::read_only::get_block_params, (id))
-FC_REFLECT(icp::read_only::get_block_results, (block))
-FC_REFLECT(icp::read_only::get_info_results, (icp_version)(local_chain_id)(peer_chain_id)(local_contract)(peer_contract)
+FC_REFLECT(eoc_icp::empty, )
+FC_REFLECT(eoc_icp::head, (head_block_num)(head_block_id)(last_irreversible_block_num)(last_irreversible_block_id))
+FC_REFLECT(eoc_icp::sequence, (last_outgoing_packet_seq)(last_incoming_packet_seq)(last_outgoing_receipt_seq)(last_incoming_receipt_seq)(last_finalised_outgoing_receipt_seq)(last_incoming_packet_block_num)(last_incoming_receipt_block_num)(last_incoming_receiptend_block_num)(min_packet_seq)(min_receipt_seq)(min_block_num))
+FC_REFLECT(eoc_icp::read_only::get_block_params, (id))
+FC_REFLECT(eoc_icp::read_only::get_block_results, (block))
+FC_REFLECT(eoc_icp::read_only::get_info_results, (icp_version)(local_chain_id)(peer_chain_id)(local_contract)(peer_contract)
                                              (head_block_num)(head_block_id)(last_irreversible_block_num)(last_irreversible_block_id)
                                              (max_blocks)(current_blocks)(last_outgoing_packet_seq)(last_incoming_packet_seq)
                                              (last_outgoing_receipt_seq)(last_incoming_receipt_seq)
                                              (max_packets)(current_packets))
-FC_REFLECT(icp::read_write::open_channel_params, (seed_block_num_or_id))
+FC_REFLECT(eoc_icp::read_write::open_channel_params, (seed_block_num_or_id))

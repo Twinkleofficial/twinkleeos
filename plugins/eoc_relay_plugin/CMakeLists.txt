@@ -1,7 +1,7 @@
 file(GLOB HEADERS "include/eosio/eoc_relay_plugin/*.hpp" "include/eosio/http_plugin/*.hpp" "include/eosio/producer_plugin/*.hpp" "include/eosio/net_plugin/*.hpp" "${CMAKE_CURRENT_SOURCE_DIR}/../../programs/cleos/*.hpp"  "${CMAKE_CURRENT_SOURCE_DIR}/*.hpp" )
 add_library( eoc_relay_plugin
              eoc_relay_plugin.cpp
-             icp_relay.cpp session.cpp api.cpp  icp_sync_manager.cpp icp_connection.cpp transaction.cpp
+             icp_relay.cpp  api.cpp  icp_sync_manager.cpp icp_connection.cpp transaction.cpp
 	     ${CMAKE_CURRENT_SOURCE_DIR}/../../programs/cleos/httpc.cpp
              ${HEADERS} )
 

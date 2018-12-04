@@ -2,7 +2,7 @@
 
 #include <eosio/chain/controller.hpp>
 
-namespace icp {
+namespace eoc_icp {
 
 using namespace eosio;
 using namespace eosio::chain;

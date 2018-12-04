@@ -6,7 +6,7 @@
 #include "icp_connection.hpp"
 #include <eosio/eoc_relay_plugin/eoc_relay_plugin.hpp>
 
-namespace icp {
+namespace eoc_icp {
 
    using icp_connection_ptr = std::shared_ptr<icp_connection>;
    using icp_connection_wptr = std::weak_ptr<icp_connection>;

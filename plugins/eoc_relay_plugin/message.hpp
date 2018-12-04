@@ -5,7 +5,8 @@
 #include "api.hpp"
 #include "cache.hpp"
 
-namespace icp {
+
+namespace eoc_icp {
 
 using namespace eosio;
 using namespace eosio::chain;
@@ -146,8 +147,8 @@ using icp_message = fc::static_variant<
 
 namespace std {
    template<>
-   struct hash<icp::packet_receipt_request> {
-      typedef icp::packet_receipt_request argument_type;
+   struct hash<eoc_icp::packet_receipt_request> {
+      typedef eoc_icp::packet_receipt_request argument_type;
       typedef std::size_t result_type;
       result_type operator()(argument_type const& s) const noexcept {
          return std::hash<string>{}(std::to_string(s.packet_seq) + std::to_string(s.receipt_seq) + std::to_string(s.finalised_receipt));
@@ -155,19 +156,19 @@ namespace std {
    };
 }
 
-FC_REFLECT(icp::hello, (id)(chain_id)(contract)(peer_contract))
-FC_REFLECT(icp::ping, (sent)(code)(head))
-FC_REFLECT(icp::pong, (sent)(code))
-FC_REFLECT(icp::channel_seed, (seed))
-FC_REFLECT(icp::head_notice, (head))
-FC_REFLECT(icp::block_header_with_merkle_path, (block_header)(merkle_path))
-FC_REFLECT(icp::send_transaction_internal, (peer_action)(action)(action_receipt))
-FC_REFLECT(icp::icp_actions, (block_header)(action_digests)(start_packet_seq)(start_receipt_seq)(packet_actions)(receipt_actions)(receiptend_actions))
-FC_REFLECT(icp::packet_receipt_request, (packet_seq)(receipt_seq)(finalised_receipt))
+FC_REFLECT(eoc_icp::hello, (id)(chain_id)(contract)(peer_contract))
+FC_REFLECT(eoc_icp::ping, (sent)(code)(head))
+FC_REFLECT(eoc_icp::pong, (sent)(code))
+FC_REFLECT(eoc_icp::channel_seed, (seed))
+FC_REFLECT(eoc_icp::head_notice, (head))
+FC_REFLECT(eoc_icp::block_header_with_merkle_path, (block_header)(merkle_path))
+FC_REFLECT(eoc_icp::send_transaction_internal, (peer_action)(action)(action_receipt))
+FC_REFLECT(eoc_icp::icp_actions, (block_header)(action_digests)(start_packet_seq)(start_receipt_seq)(packet_actions)(receipt_actions)(receiptend_actions))
+FC_REFLECT(eoc_icp::packet_receipt_request, (packet_seq)(receipt_seq)(finalised_receipt))
 
-FC_REFLECT(icp::icp_action, (action)(action_receipt)(block_id)(merkle_path))
-FC_REFLECT(icp::bytes_data, (data))
-FC_REFLECT(icp::dummy, (from))
-FC_REFLECT(icp::cleanup, (max_num))
-FC_REFLECT(icp::icp_packet, (seq)(expiration)(send_action)(receipt_action)(status)(shadow))
-FC_REFLECT(icp::icp_receipt, (seq)(pseq)(status)(data)(shadow))
+FC_REFLECT(eoc_icp::icp_action, (action)(action_receipt)(block_id)(merkle_path))
+FC_REFLECT(eoc_icp::bytes_data, (data))
+FC_REFLECT(eoc_icp::dummy, (from))
+FC_REFLECT(eoc_icp::cleanup, (max_num))
+FC_REFLECT(eoc_icp::icp_packet, (seq)(expiration)(send_action)(receipt_action)(status)(shadow))
+FC_REFLECT(eoc_icp::icp_receipt, (seq)(pseq)(status)(data)(shadow))
