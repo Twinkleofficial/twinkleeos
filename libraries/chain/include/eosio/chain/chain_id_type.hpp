@@ -8,7 +8,7 @@
 
 struct hello;
 
-namespace icp{
+namespace eoc_icp{
   class relay;
   struct hello;
   class read_only;
@@ -61,13 +61,13 @@ namespace chain {
          friend struct eosio::handshake_message;
          friend struct eosio::difchain_message;
          friend class connection;
-         friend class icp::relay;
+         friend class eoc_icp::relay;
          friend struct ::hello; // TODO: Rushed hack to support bnet_plugin. Need a better solution.
-         friend struct icp::hello;
-         friend class icp::read_only;
-         friend struct icp::get_info_results;
-         friend class icp::icp_connection;
-         friend struct icp::icp_handshake_message;
+         friend struct eoc_icp::hello;
+         friend class eoc_icp::read_only;
+         friend struct eoc_icp::get_info_results;
+         friend class eoc_icp::icp_connection;
+         friend struct eoc_icp::icp_handshake_message;
    };
 
 } }  // namespace eosio::chain
